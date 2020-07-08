@@ -14,7 +14,7 @@ type expertPlayer struct {
 func newExpertPlayer() (* expertPlayer) {
     rand.Seed(time.Now().UnixNano())
     return &expertPlayer{
-        Strategy : []int{-1, -1, 5, 5, 5, -1, 9, 9, 9, -1, 13, 13, 13, -1, 17, 17, 17, -1, 21, 21, 21},
+        Strategy : []int{1, -1, 5, 5, 5, -1, 9, 9, 9, -1, 13, 13, 13, -1, 17, 17, 17, -1, 21, 21, 21},
     }
 }
 

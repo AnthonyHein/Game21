@@ -10,7 +10,7 @@ import (
 
 type learningPlayer struct {
     Strategy [][3]float32
-    ActionSequence []int
+    ActionSequence map[int]int
     Wins int
     Losses int
 }
@@ -21,11 +21,11 @@ func newLearningPlayer() (* learningPlayer) {
     var lp learningPlayer
 
     // Attempt to load data.
-    bs, err := ioutil.ReadFile("learningPlayer.json")
+    bs, err := ioutil.ReadFile("players/learningPlayer.json")
     if err == nil {
         err = json.Unmarshal(bs, &lp)
         if err == nil {
-            lp.ActionSequence = make([]int, 21)
+            lp.ActionSequence = make(map[int]int)
             lp.Wins = 0
             lp.Losses = 0
             return &lp
@@ -57,7 +57,7 @@ func newLearningPlayer() (* learningPlayer) {
             [3]float32{1/3.0, 1/3.0, 1/3.0},
             [3]float32{1/3.0, 1/3.0, 1/3.0},
         },
-        ActionSequence : make([]int, 21),
+        ActionSequence : make(map[int]int),
     }
     return &lp
 }
@@ -68,9 +68,11 @@ func (p * learningPlayer) getMove(pos int) (int) {
     for i, v := range p.Strategy[pos] {
         cumsum += v
         if r < cumsum {
+            p.ActionSequence[pos] = i
             return pos + i + 1
         }
     }
+    print("There has been a normalization error.")
     return -1
 }
 
@@ -84,10 +86,14 @@ func (p * learningPlayer) getLosses() (int) {
 
 func (p * learningPlayer) incWins() {
     p.Wins += 1
+    p.reward()
+    p.ActionSequence = make(map[int]int)
 }
 
 func (p * learningPlayer) incLosses() {
     p.Losses += 1
+    p.punish()
+    p.ActionSequence = make(map[int]int)
 }
 
 func (p * learningPlayer) save() {
@@ -98,5 +104,52 @@ func (p * learningPlayer) save() {
     err = ioutil.WriteFile("players/learningPlayer.json", bs, 0666)
     if err != nil {
         log.Fatalln(err)
+    }
+}
+
+func (p * learningPlayer) reward() {
+    for pos, next := range p.ActionSequence {
+
+        var boost float32
+        var total float32
+
+        for i, v := range p.Strategy[pos] {
+            if i != next {
+                boost += v * 0.1
+                p.Strategy[pos][i] = v * 0.9
+                total += p.Strategy[pos][i]
+            }
+        }
+        p.Strategy[pos][next] += boost
+        total += p.Strategy[pos][next]
+
+        // Normalize.
+        for i, _ := range p.Strategy[pos] {
+            p.Strategy[pos][i] /= total
+        }
+    }
+}
+
+func (p * learningPlayer) punish() {
+    for pos, next := range p.ActionSequence {
+
+        var setback float32
+        var total float32
+
+        setback = p.Strategy[pos][next] * 0.1
+        p.Strategy[pos][next] *= 0.9
+
+        for i, _ := range p.Strategy[pos] {
+            if i != next {
+                p.Strategy[pos][i] += setback / 2.0
+            }
+            total += p.Strategy[pos][i]
+        }
+
+        // Normalize.
+        for i, _ := range p.Strategy[pos] {
+            p.Strategy[pos][i] /= total
+        }
+
     }
 }

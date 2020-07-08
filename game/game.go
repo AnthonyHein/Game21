@@ -5,6 +5,7 @@ import (
     "math/rand"
     "fmt"
     "strconv"
+    "time"
 )
 
 type Game struct {
@@ -20,6 +21,7 @@ func New(p1, p2 players.Player) (* Game) {
 func (g * Game) Simulate(n int) {
     for i := 0; i < n; i++ {
 
+        rand.Seed(time.Now().UnixNano())
         currentPlayer := rand.Intn(2)
 
         var pos int
