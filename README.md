@@ -54,14 +54,14 @@ $ ./mygame
 
 ```
 .
-├── mygame (executable)
 ├── README.md (you are reading this right now)
 ├── game
 │   └── game.go (dictates how the game is played)
 ├── main.go (creates players and runs games)
 └── players
+    ├── learningPlayer.json (captures the learning agent's strategy to make it stateful)
     ├── player.go (implements Player interface and functions)
-    ├── learningPlayer.go (the RL agent which learns the game as it goes along)
     ├── expertPlayer.go (the agent which knows the winning strategy and plays accordingly)
+    ├── learningPlayer.go (the RL agent which learns the game as it goes along)
     └── randomPlayer.go (the agent which takes random moves)
 ```
