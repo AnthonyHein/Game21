@@ -8,6 +8,7 @@ import (
 type randomPlayer struct {
     Strategy [][3]float32
     Wins int
+    Losses int
 }
 
 func newRandomPlayer() (* randomPlayer) {
@@ -55,6 +56,14 @@ func (p * randomPlayer) getWins() (int) {
     return p.Wins
 }
 
+func (p * randomPlayer) getLosses() (int) {
+    return p.Losses
+}
+
 func (p * randomPlayer) incWins() {
     p.Wins += 1
+}
+
+func (p * randomPlayer) incLosses() {
+    p.Losses += 1
 }

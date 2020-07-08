@@ -8,6 +8,7 @@ import (
 type expertPlayer struct {
     Strategy []int
     Wins int
+    Losses int
 }
 
 func newExpertPlayer() (* expertPlayer) {
@@ -30,6 +31,14 @@ func (p * expertPlayer) getWins() (int) {
     return p.Wins
 }
 
+func (p * expertPlayer) getLosses() (int) {
+    return p.Losses
+}
+
 func (p * expertPlayer) incWins() {
     p.Wins += 1
+}
+
+func (p * expertPlayer) incLosses() {
+    p.Losses += 1
 }

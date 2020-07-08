@@ -32,8 +32,11 @@ func (g * Game) Simulate(n int) {
 
         if pos == 21 {
             players.IncWins(g.ps[(currentPlayer + 1) % 2])
+            players.IncLosses(g.ps[currentPlayer])
         } else {
             players.IncWins(g.ps[currentPlayer])
+            players.IncLosses(g.ps[(currentPlayer + 1) % 2])
+
         }
     }
 
@@ -44,4 +47,7 @@ func (g * Game) Simulate(n int) {
 func (g * Game) Results() {
     fmt.Println("Player 1 wins: " + strconv.Itoa(players.GetWins(g.ps[0])))
     fmt.Println("Player 2 wins: " + strconv.Itoa(players.GetWins(g.ps[1])))
+    fmt.Println()
+    fmt.Println("Player 1 losses: " + strconv.Itoa(players.GetLosses(g.ps[0])))
+    fmt.Println("Player 2 losses: " + strconv.Itoa(players.GetLosses(g.ps[1])))
 }

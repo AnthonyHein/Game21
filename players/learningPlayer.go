@@ -10,7 +10,9 @@ import (
 
 type learningPlayer struct {
     Strategy [][3]float32
+    ActionSequence []int
     Wins int
+    Losses int
 }
 
 func newLearningPlayer() (* learningPlayer) {
@@ -23,7 +25,9 @@ func newLearningPlayer() (* learningPlayer) {
     if err == nil {
         err = json.Unmarshal(bs, &lp)
         if err == nil {
+            lp.ActionSequence = make([]int, 21)
             lp.Wins = 0
+            lp.Losses = 0
             return &lp
         }
     }
@@ -53,6 +57,7 @@ func newLearningPlayer() (* learningPlayer) {
             [3]float32{1/3.0, 1/3.0, 1/3.0},
             [3]float32{1/3.0, 1/3.0, 1/3.0},
         },
+        ActionSequence : make([]int, 21),
     }
     return &lp
 }
@@ -73,8 +78,16 @@ func (p * learningPlayer) getWins() (int) {
     return p.Wins
 }
 
+func (p * learningPlayer) getLosses() (int) {
+    return p.Losses
+}
+
 func (p * learningPlayer) incWins() {
     p.Wins += 1
+}
+
+func (p * learningPlayer) incLosses() {
+    p.Losses += 1
 }
 
 func (p * learningPlayer) save() {

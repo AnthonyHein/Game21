@@ -15,7 +15,9 @@ const(
 type Player interface {
     getMove(int) (int)
     getWins() (int)
+    getLosses() (int)
     incWins()
+    incLosses()
 }
 
 func NewPlayer(s PlayerType) (Player) {
@@ -39,8 +41,16 @@ func GetWins(p Player) (int) {
     return p.getWins()
 }
 
+func GetLosses(p Player) (int) {
+    return p.getLosses()
+}
+
 func IncWins(p Player) {
     p.incWins()
+}
+
+func IncLosses(p Player) {
+    p.incLosses()
 }
 
 func Save(p Player) {
