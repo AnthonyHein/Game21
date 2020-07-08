@@ -33,6 +33,13 @@ will usually result in a win (my tests have shown that an 'ExpertPlayer' wins
 
 Do you know what the strategy is?
 
+### Results
+
+With about ```1,000,000``` simulations, the 'LearningPlayer' goes from randomly
+selecting actions to perfectly executing the optimal strategy at all points.
+
+Cool stuff!
+
 ### Usage
 
 1. Of course, make sure you have Go installed. Check out the offical site [here](https://golang.org/).
