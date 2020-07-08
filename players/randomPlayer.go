@@ -6,14 +6,14 @@ import (
 )
 
 type randomPlayer struct {
-    strategy [][3]float32
-    wins int
+    Strategy [][3]float32
+    Wins int
 }
 
 func newRandomPlayer() (* randomPlayer) {
     rand.Seed(time.Now().UnixNano())
     return &randomPlayer{
-        strategy : [][3]float32{
+        Strategy : [][3]float32{
             [3]float32{1/3.0, 1/3.0, 1/3.0},
             [3]float32{1/3.0, 1/3.0, 1/3.0},
             [3]float32{1/3.0, 1/3.0, 1/3.0},
@@ -42,7 +42,7 @@ func newRandomPlayer() (* randomPlayer) {
 func (p * randomPlayer) getMove(pos int) (int) {
     r := rand.Float32()
     var cumsum float32
-    for i, v := range p.strategy[pos] {
+    for i, v := range p.Strategy[pos] {
         cumsum += v
         if r < cumsum {
             return pos + i + 1
@@ -52,9 +52,9 @@ func (p * randomPlayer) getMove(pos int) (int) {
 }
 
 func (p * randomPlayer) getWins() (int) {
-    return p.wins
+    return p.Wins
 }
 
 func (p * randomPlayer) incWins() {
-    p.wins += 1
+    p.Wins += 1
 }

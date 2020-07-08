@@ -36,6 +36,9 @@ func (g * Game) Simulate(n int) {
             players.IncWins(g.ps[currentPlayer])
         }
     }
+
+    players.Save(g.ps[0])
+    players.Save(g.ps[1])
 }
 
 func (g * Game) Results() {

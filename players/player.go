@@ -42,3 +42,9 @@ func GetWins(p Player) (int) {
 func IncWins(p Player) {
     p.incWins()
 }
+
+func Save(p Player) {
+    if lp, ok := p.(* learningPlayer); ok {
+        lp.save()
+    }
+}
