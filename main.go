@@ -6,7 +6,7 @@ import (
 )
 
 func main () {
-    p1 := players.NewPlayer(players.Expert)
+    p1 := players.NewPlayer(players.Random)
     p2 := players.NewPlayer(players.Learning)
 
     g := game.New(p1, p2)
